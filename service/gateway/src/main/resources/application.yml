@@ -1,0 +1,18 @@
+### Server Configuration ###
+server:
+  port: 8080
+  servlet:
+    context-path: /api/v1
+
+### Spring Configuration ###
+spring:
+  application:
+    name: gateway
+
+### Eureka Server Configuration ###
+eureka:
+  instance:
+    preferIpAddress: true
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
