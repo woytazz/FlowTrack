@@ -1,10 +1,12 @@
 package io.flowtrack.orchestrator;
 
+import io.flowtrack.shared.config.JpaAuditingConfig;
+import io.flowtrack.shared.config.SchemaInitializer;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.netflix.eureka.server.EnableEurekaServer;
+import org.springframework.context.annotation.Import;
 
-@EnableEurekaServer
+@Import({SchemaInitializer.class, JpaAuditingConfig.class})
 @SpringBootApplication
 public class OrchestratorApplication {
 

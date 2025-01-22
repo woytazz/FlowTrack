@@ -8,11 +8,31 @@ server:
 spring:
   application:
     name: gateway
-
-### Eureka Server Configuration ###
-eureka:
-  instance:
-    preferIpAddress: true
-  client:
-    serviceUrl:
-      defaultZone: http://localhost:8761/eureka/
+  main:
+    web-application-type: servlet
+  sql:
+    init:
+      mode: never
+  datasource:
+    url: jdbc:postgresql://localhost:5432/flowtrack_db
+    username: ${DB_USERNAME:flowtrack}
+    password: ${DB_PASSWORD:flowtrack}
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 5
+      idle-timeout: 30000
+      max-lifetime: 1800000
+      connection-timeout: 30000
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        default_schema: gateway
+        format_sql: true
+        show_sql: true
+  liquibase:
+    enabled: false
+    default-schema: gateway
+    change-log: classpath:liquibase/master.yml

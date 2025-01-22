@@ -1,0 +1,7 @@
+databaseChangeLog:
+  - changeSet:
+      id: init
+      author: adrian.wojtasik
+      changes:
+        - sqlFile:
+            path: liquibase/sql/init.sql

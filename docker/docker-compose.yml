@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:latest
+    container_name: flowtrack_postgres
+    restart: always
+    environment:
+      POSTGRES_USER: flowtrack
+      POSTGRES_PASSWORD: flowtrack
+      POSTGRES_DB: flowtrack_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - flowtrack_postgres_data:/var/lib/postgresql/data
+
+volumes:
+  flowtrack_postgres_data:
+    driver: local
