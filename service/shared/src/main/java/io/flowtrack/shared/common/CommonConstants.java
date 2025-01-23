@@ -9,6 +9,10 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class CommonConstants {
 
+    public static final String BEARER_JWT_PREFIX = "Bearer ";
+    public static final String ACCESS_JWT_CLAIM = "access";
+    public static final String ROLES_JWT_CLAIM = "roles";
+    public static final String ROLE_SYSTEM = "ROLE_SYSTEM";
     public static final String SYSTEM = "system";
     public static final String ADMIN = "admin";
     public static final String ANONYMOUS = "anonymous";

@@ -3,9 +3,12 @@ package io.flowtrack.gateway.security.service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.flowtrack.gateway.security.AuthController;
 import io.flowtrack.gateway.security.dto.LoginRequest;
+import io.flowtrack.gateway.security.dto.LoginResponse;
+import io.flowtrack.gateway.security.jwt.JwtProvider;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.data.util.Pair;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -20,9 +23,11 @@ import java.io.IOException;
 public class AuthenticationFilter extends AbstractAuthenticationProcessingFilter {
 
     private final ObjectMapper objectMapper = new ObjectMapper();
+    private final JwtProvider jwtProvider;
 
-    public AuthenticationFilter(AuthenticationManager authenticationManager) {
+    public AuthenticationFilter(AuthenticationManager authenticationManager, JwtProvider jwtProvider) {
         super(new AntPathRequestMatcher(AuthController.LOGIN_URL, HttpMethod.POST.name()), authenticationManager);
+        this.jwtProvider = jwtProvider;
     }
 
     @Override
@@ -34,16 +39,19 @@ public class AuthenticationFilter extends AbstractAuthenticationProcessingFilter
 
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException {
+        Pair<String, String> jwtPair = jwtProvider.provideExternalJwtPair(authResult.getName(), authResult.getAuthorities());
+        LoginResponse loginResponse = LoginResponse.builder()
+                .accessToken(jwtPair.getFirst())
+                .refreshToken(jwtPair.getSecond())
+                .build();
         response.setStatus(HttpServletResponse.SC_OK);
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-//        response.getWriter().write("new ObjectMapper().writeValueAsString(tokenDto)");
-        response.getWriter().write("successfulAuthentication");
+        response.getWriter().write(objectMapper.writeValueAsString(loginResponse));
     }
 
     @Override
-    protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) {
-        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+    protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException {
+        response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
     }
 
 }

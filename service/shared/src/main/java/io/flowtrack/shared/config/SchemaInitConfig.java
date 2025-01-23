@@ -14,7 +14,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 @Component
-public class SchemaInitializer implements BeanPostProcessor {
+public class SchemaInitConfig implements BeanPostProcessor {
 
     @Value("${spring.liquibase.default-schema}")
     private String schemaName;

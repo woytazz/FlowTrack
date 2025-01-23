@@ -5,10 +5,19 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+
+import java.util.List;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class SecurityAuthenticationUtil {
+
+    public static List<SimpleGrantedAuthority> getSimpleGrantedAuthorities(List<String> roles) {
+        return roles.stream()
+                .map(SimpleGrantedAuthority::new)
+                .toList();
+    }
 
     public static String getAuthenticationName() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
