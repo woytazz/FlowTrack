@@ -14,10 +14,7 @@ import org.springframework.data.util.Pair;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Component
 @RequiredArgsConstructor
@@ -51,8 +48,8 @@ public class JwtProvider implements JwtDecoder {
         return JWT.create()
                 .withJWTId(UUID.randomUUID().toString())
                 .withSubject(username)
-                .withClaim(CommonConstants.ROLES_JWT_CLAIM, CommonConstants.ROLE_SYSTEM)
-                .withIssuer(issuer)
+                .withClaim(CommonConstants.ACCESS_JWT_CLAIM, true)
+                .withClaim(CommonConstants.ROLES_JWT_CLAIM, Collections.singletonList(CommonConstants.ROLE_SYSTEM))
                 .withIssuedAt(new Date())
                 .withExpiresAt(new Date(System.currentTimeMillis() + 30 * 1000L))
                 .sign(internalJwtAlgorithm);

@@ -14,10 +14,10 @@ public final class CommonConstants {
     public static final String ROLES_JWT_CLAIM = "roles";
     public static final String ROLE_SYSTEM = "ROLE_SYSTEM";
     public static final String SYSTEM = "system";
-    public static final String ADMIN = "admin";
     public static final String ANONYMOUS = "anonymous";
     public static final String UNAUTHENTICATED = "unauthenticated";
-    public static final List<String> FORBIDDEN_USERNAMES = Arrays.asList(SYSTEM, ADMIN, ANONYMOUS, UNAUTHENTICATED);
+    public static final String ADMIN = "admin";
+    public static final List<String> FORBIDDEN_USERNAMES = Arrays.asList(SYSTEM, ANONYMOUS, UNAUTHENTICATED, ADMIN);
 
     public static final String CREATE_SCHEMA = "create schema if not exists %s";
 

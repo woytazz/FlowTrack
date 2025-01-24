@@ -5,9 +5,11 @@ import io.flowtrack.gateway.security.AuthController;
 import io.flowtrack.gateway.security.dto.LoginRequest;
 import io.flowtrack.gateway.security.dto.LoginResponse;
 import io.flowtrack.gateway.security.jwt.JwtProvider;
+import io.flowtrack.shared.common.CommonConstants;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.util.Pair;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
@@ -39,7 +41,7 @@ public class AuthenticationFilter extends AbstractAuthenticationProcessingFilter
 
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException {
-        Pair<String, String> jwtPair = jwtProvider.provideExternalJwtPair(authResult.getName(), authResult.getAuthorities());
+        Pair<String, String> jwtPair = generateJwt(authResult);
         LoginResponse loginResponse = LoginResponse.builder()
                 .accessToken(jwtPair.getFirst())
                 .refreshToken(jwtPair.getSecond())
@@ -54,4 +56,10 @@ public class AuthenticationFilter extends AbstractAuthenticationProcessingFilter
         response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
     }
 
+    private Pair<String, String> generateJwt(Authentication authentication) {
+        if (authentication.getName().equals(CommonConstants.SYSTEM)) {
+            return Pair.of(jwtProvider.provideInternalJwt(authentication.getName()), StringUtils.EMPTY);
+        }
+        return jwtProvider.provideExternalJwtPair(authentication.getName(), authentication.getAuthorities());
+    }
 }

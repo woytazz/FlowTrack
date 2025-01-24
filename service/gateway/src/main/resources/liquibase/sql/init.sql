@@ -1,10 +1,18 @@
 --insert into gateway."role"
 --(id, created_by, created_date, last_modified_by, last_modified_date, "version", value)
+--values(nextval('gateway."role_seq"'), 'system', '2025-01-01 00:00:00.000', 'system', '2025-01-01 00:00:00.000', 0, 'ROLE_SYSTEM') on conflict do nothing ;
+--
+--insert into gateway."role"
+--(id, created_by, created_date, last_modified_by, last_modified_date, "version", value)
 --values(nextval('gateway."role_seq"'), 'system', '2025-01-01 00:00:00.000', 'system', '2025-01-01 00:00:00.000', 0, 'ROLE_ADMIN') on conflict do nothing ;
 --
 --insert into gateway."role"
 --(id, created_by, created_date, last_modified_by, last_modified_date, "version", value)
 --values(nextval('gateway."role_seq"'), 'system', '2025-01-01 00:00:00.000', 'system', '2025-01-01 00:00:00.000', 0, 'ROLE_USER') on conflict do nothing ;
+--
+--INSERT INTO gateway."user"
+--(id, created_by, created_date, last_modified_by, last_modified_date, "version", encrypted_password, username)
+--VALUES(nextval('gateway."user_seq"'), 'system', '2025-01-01 00:00:00.000', 'system', '2025-01-01 00:00:00.000', 0, '$2a$10$i8ELkFfb0LpUudPJIPxeSO2.NgK0nsWw.tM.bz7PDYbP3zl6lKXFe', 'system') on conflict do nothing ;
 --
 --INSERT INTO gateway."user"
 --(id, created_by, created_date, last_modified_by, last_modified_date, "version", encrypted_password, username)
@@ -21,3 +29,7 @@
 --INSERT INTO gateway.user_x_role
 --(user_id, role_id)
 --VALUES(2, 2) on conflict do nothing ;
+--
+--INSERT INTO gateway.user_x_role
+--(user_id, role_id)
+--VALUES(3, 3) on conflict do nothing ;
