@@ -34,9 +34,7 @@ public class SecurityConfig {
                 .addFilterAt(new AuthenticationFilter(authenticationManager, jwtProvider), UsernamePasswordAuthenticationFilter.class)
                 .addFilterAfter(new CustomRequestFilter(jwtProvider), AuthenticationFilter.class)
                 .sessionManagement(sessionManagementConfigurer -> sessionManagementConfigurer
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests(requestMatcherRegistry -> requestMatcherRegistry
-                        .anyRequest().authenticated());
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
         return http.build();
     }
