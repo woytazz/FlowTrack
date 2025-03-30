@@ -6,5 +6,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class UniqueConstraints {
 
-    public final static String ACCOUNT_EMAIL = "uc_account_email";
+    public static final String ACCOUNT_EMAIL = "uc_account_email";
 }
